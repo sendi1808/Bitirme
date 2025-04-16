@@ -1,0 +1,61 @@
+<div class="container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-card">
+    <div class="logo">SPINOVA</div>
+    
+    <div class="form-group">
+      <label for="sicilNo">Sicil Numarası</label>
+      <input 
+        type="text" 
+        id="sicilNo" 
+        formControlName="sicilNo" 
+        placeholder="Sicil numaranızı giriniz"
+        [class.is-invalid]="loginForm.get('sicilNo')?.invalid && loginForm.get('sicilNo')?.touched"
+      >
+      <div *ngIf="loginForm.get('sicilNo')?.invalid && loginForm.get('sicilNo')?.touched" class="error">
+        Sicil numarası girilmesi zorunludur
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Şifre</label>
+      <input 
+        type="password" 
+        id="password" 
+        formControlName="password" 
+        placeholder="Şifrenizi giriniz"
+        [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+      >
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+        Şifre girilmesi zorunludur
+      </div>
+    </div>
+    
+    <div class="checkbox-group">
+      <input 
+        type="checkbox" 
+        id="kvkk" 
+        formControlName="kvkkAccepted"
+        [class.is-invalid]="loginForm.get('kvkkAccepted')?.invalid && loginForm.get('kvkkAccepted')?.touched"
+      >
+      <label for="kvkk">
+        Kişisel verilerimin işlenmesini kabul ediyorum. 
+        <a href="assets/kvkk.pdf" target="_blank" class="kvkk-link">KVKK Aydınlatma Metni</a>
+      </label>
+    </div>
+    <div *ngIf="loginForm.get('kvkkAccepted')?.invalid && loginForm.get('kvkkAccepted')?.touched" class="error">
+      KVKK onayı vermek zorunludur
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    
+    <button type="submit" [disabled]="loginForm.invalid || isLoading">
+      {{ isLoading ? 'Giriş Yapılıyor...' : 'Giriş Yap' }}
+    </button>
+
+    <div class="form-footer">
+      <a routerLink="/reset-password">Şifrenizi mi unuttunuz?</a>
+    </div>
+  </form>
+</div>

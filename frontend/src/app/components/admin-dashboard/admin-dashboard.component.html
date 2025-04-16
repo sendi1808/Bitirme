@@ -1,0 +1,37 @@
+<div class="admin-dashboard">
+  <header class="dashboard-header">
+    <h1>Admin Paneli</h1>
+    <button class="logout-button" (click)="logout()">Çıkış Yap</button>
+  </header>
+
+  <nav class="dashboard-nav">
+    <button class="nav-button" (click)="navigateTo('/admin/doctors')">Doktorlar</button>
+    <button class="nav-button" (click)="navigateTo('/admin/patients')">Hastalar</button>
+    <button class="nav-button" (click)="navigateTo('/admin/appointments')">Randevular</button>
+    <button class="nav-button" (click)="navigateTo('/admin/settings')">Ayarlar</button>
+  </nav>
+
+  <main class="dashboard-content">
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3>Toplam Doktor</h3>
+        <p>{{ doctors.length }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Toplam Hasta</h3>
+        <p>{{ patients.length }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Bugünkü Randevular</h3>
+        <p>{{ appointments.length }}</p>
+      </div>
+    </div>
+
+    <div class="recent-activity">
+      <h2>Son Aktiviteler</h2>
+      <div class="activity-list">
+        <!-- Son aktiviteler listesi -->
+      </div>
+    </div>
+  </main>
+</div> 

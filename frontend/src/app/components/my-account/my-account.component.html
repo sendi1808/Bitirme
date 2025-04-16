@@ -1,0 +1,99 @@
+<div class="account-container">
+  <h2>HESABIM</h2>
+
+  <div class="info-box">
+    <div class="info-content">
+      <div class="info-group">
+        <label>Ad-Soyad</label>
+        <span>{{ user.name }}</span>
+      </div>
+
+      <div class="info-group">
+        <label>Sicil Numarası</label>
+        <span>{{ user.registry }}</span>
+      </div>
+
+      <div class="info-group">
+        <label>E-posta</label>
+        <span>{{ user.email }}</span>
+      </div>
+    </div>
+
+    <button class="update-button" (click)="showUpdateForm = true" *ngIf="!showUpdateForm">
+      Bilgilerimi Güncelle
+    </button>
+  </div>
+
+  <form (ngSubmit)="onSubmit(accountForm)" #accountForm="ngForm" *ngIf="showUpdateForm" class="update-form">
+    <div class="form-group">
+      <label for="name">Ad-Soyad</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="user.name"
+        required
+        #nameInput="ngModel"
+        [class.is-invalid]="nameInput.invalid && nameInput.touched"
+      />
+      <div class="invalid-feedback" *ngIf="nameInput.invalid && nameInput.touched">
+        Ad-Soyad zorunludur
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="registry">Sicil Numarası</label>
+      <input
+        type="text"
+        id="registry"
+        name="registry"
+        [(ngModel)]="user.registry"
+        required
+        #registryInput="ngModel"
+        [class.is-invalid]="registryInput.invalid && registryInput.touched"
+      />
+      <div class="invalid-feedback" *ngIf="registryInput.invalid && registryInput.touched">
+        Sicil numarası zorunludur
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-posta</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="user.email"
+        required
+        email
+        #emailInput="ngModel"
+        [class.is-invalid]="emailInput.invalid && emailInput.touched"
+      />
+      <div class="invalid-feedback" *ngIf="emailInput.invalid && emailInput.touched">
+        <span *ngIf="emailInput.errors?.['required']">E-posta zorunludur</span>
+        <span *ngIf="emailInput.errors?.['email']">Geçerli bir e-posta adresi giriniz</span>
+      </div>
+    </div>
+
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert alert-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" (click)="showUpdateForm = false">
+        İptal
+      </button>
+      <button
+        type="submit"
+        [disabled]="!accountForm.valid || isSubmitting"
+        class="btn btn-primary"
+      >
+        {{ isSubmitting ? 'Güncelleniyor...' : 'Güncelle' }}
+      </button>
+    </div>
+  </form>
+</div> 

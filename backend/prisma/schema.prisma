@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      String   @default("doctor") // "doctor" veya "admin"
+  doctor    Doctor?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Doctor {
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  name            String
+  surname         String
+  registrationNo  String   @unique
+  hospital        String
+  email           String?  @unique
+  password        String
+  isEmailVerified Boolean  @default(false)
+  isPasswordChanged Boolean @default(false)
+  patients        Patient[]
+  reports         Report[]
+
+  @@map("doctors")
+}
+
+model Patient {
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          String   @unique
+  name            String
+  surname         String
+  tcNo            String   @unique
+  birthDate       DateTime
+  gender          String
+  phone           String
+  email           String?  @unique
+  password        String?
+  isEmailVerified Boolean  @default(false)
+  address         String
+  bloodType       String?
+  height          Int?
+  weight          Int?
+  allergies       String?
+  chronicDiseases String?
+  doctorId        String
+  doctor          Doctor   @relation(fields: [doctorId], references: [id])
+  reports         Report[]
+  ctScans         CTScan[]
+
+  @@map("patients")
+}
+
+model CTScan {
+  id          String    @id @default(uuid())
+  patientId   String
+  patient     Patient   @relation(fields: [patientId], references: [id])
+  filePath    String    @map("file_path")
+  uploadedAt  DateTime  @default(now()) @map("uploaded_at")
+  sliceInfo   String?   @map("slice_info") // JSON formatında
+  report      Report?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt
+
+  @@map("ct_scans")
+}
+
+model Report {
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  patientId       String
+  patient         Patient  @relation(fields: [patientId], references: [id])
+  doctorId        String
+  doctor          Doctor   @relation(fields: [doctorId], references: [id])
+  date            DateTime
+  imageUrl        String
+  diagnosis       String
+  ctScan          CTScan?  @relation(fields: [ctScanId], references: [id])
+  ctScanId        String?  @unique
+
+  @@map("reports")
+}
+
+model Admin {
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          String   @unique
+  name            String
+  surname         String
+  email           String   @unique
+  password        String
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  userId    String
+  userType  String
+  createdAt DateTime @default(now())
+}

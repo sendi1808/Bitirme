@@ -1,0 +1,242 @@
+<div class="app-container" *ngIf="patient">
+  <!-- Navbar Bölümü -->
+  <nav class="navbar">
+    <div class="navbar-logo">SPINOVA</div>
+    <div class="navbar-right">
+      <div class="navbar-menu">
+        
+        <a [routerLink]="['/doctor-dashboard']" class="navbar-item">
+          <i class="fas fa-folder"></i>
+          HASTA ARŞİVİ
+        </a>
+        <a  class="navbar-item">
+          <i class="fas fa-folder"></i>
+          HESABIM
+        </a>
+      </div>
+      <div class="navbar-actions">
+        <button class="back-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i>
+          Hasta Listesine Dön
+        </button>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="page-wrapper">
+    <!-- Dikey Yan Menü -->
+    <aside class="sidebar-menu">
+      <div class="patient-avatar">
+        <i class="fas fa-user-circle"></i>
+        <h3>{{ patient.name }} {{ patient.surname }}</h3>
+      </div>
+      
+      <div class="patient-details">
+        <div class="info-section">
+          <h4 class="section-title">Kişisel Bilgiler</h4>
+          
+          <div class="info-item">
+            <span class="label">TC Kimlik No</span>
+            <span class="value">{{ patient.tcNo }}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="label">Doğum Tarihi</span>
+            <span class="value">{{ patient.birthDate | date:'dd.MM.yyyy' }}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="label">Cinsiyet</span>
+            <span class="value">{{ patient.gender }}</span>
+          </div>
+        </div>
+        
+        <div class="info-section">
+          <h4 class="section-title">İletişim Bilgileri</h4>
+          
+          <div class="info-item">
+            <span class="label">Telefon</span>
+            <span class="value">{{ patient.phone }}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="label">E-posta</span>
+            <span class="value">{{ patient.email }}</span>
+          </div>
+        </div>
+        
+        <div class="info-section">
+          <h4 class="section-title">Sağlık Bilgileri</h4>
+          
+          <div class="info-item">
+            <span class="label">Boy</span>
+            <span class="value">{{ patient.height || '--' }} cm</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="label">Kilo</span>
+            <span class="value">{{ patient.weight || '--' }} kg</span>
+          </div>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="edit-btn" (click)="toggleEditMode()" *ngIf="!isEditMode">
+            <i class="fas fa-edit"></i>
+            Bilgileri Güncelle
+          </button>
+        </div>
+      </div>
+    </aside>
+  
+    <!-- Ana İçerik -->
+    <main class="main-content">
+      <!-- Hasta Bilgi Formu (Düzenleme modu) -->
+      <div class="patient-form" *ngIf="isEditMode">
+        <div class="form-header">
+          <h2>Hasta Bilgilerini Düzenle</h2>
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="toggleEditMode()">İptal</button>
+            <button type="button" class="save-btn" (click)="saveChanges()">Kaydet</button>
+          </div>
+        </div>
+        
+        <form [formGroup]="patientForm">
+          <div class="form-section">
+            <div class="form-group">
+              <label for="tcNo">TC Kimlik No</label>
+              <input type="text" id="tcNo" [value]="patient.tcNo" readonly>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Adı</label>
+                <input type="text" id="name" formControlName="name">
+              </div>
+              
+              <div class="form-group">
+                <label for="surname">Soyadı</label>
+                <input type="text" id="surname" formControlName="surname">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="birthDate">Doğum Tarihi</label>
+                <input type="date" id="birthDate" formControlName="birthDate">
+              </div>
+              
+              <div class="form-group">
+                <label for="gender">Cinsiyet</label>
+                <select id="gender" formControlName="gender">
+                  <option value="Erkek">Erkek</option>
+                  <option value="Kadın">Kadın</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Telefon</label>
+                <input type="tel" id="phone" formControlName="phone">
+              </div>
+              
+              <div class="form-group">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" formControlName="email">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="height">Boy (cm)</label>
+                <input type="number" id="height" formControlName="height">
+              </div>
+              
+              <div class="form-group">
+                <label for="weight">Kilo (kg)</label>
+                <input type="number" id="weight" formControlName="weight">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Hasta Rapor Görünümü (Normal mod) -->
+      <div class="patient-content" *ngIf="!isEditMode">
+        <div class="content-header">
+          <h2>{{ patient.name }} {{ patient.surname }} Raporları</h2>
+        </div>
+        
+        <div class="patient-reports">
+          <div *ngIf="reports.length === 0" class="empty-reports">
+            <p>Henüz yüklenmiş görüntü ya da rapor bulunmamaktadır.</p>
+            <p>Yeni bir görüntü eklemek için "Görüntü Ekle" düğmesini kullanın.</p>
+          </div>
+
+          <table *ngIf="reports.length > 0" class="reports-table">
+            <thead>
+              <tr>
+                <th>Tarih</th>
+                <th>Görüntü</th>
+                <th>Tanı</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of reports">
+                <td>{{ report.date | date:'dd.MM.yyyy' }}</td>
+                <td>
+                  <img 
+                    [src]="report.imageUrl" 
+                    alt="Hasta Görüntüsü"
+                    class="report-thumbnail">
+                </td>
+                <td>{{ report.diagnosis }}</td>
+                <td>
+                  <div class="report-actions">
+                    <div class="action-buttons">
+                      <button class="download-btn" title="Raporu İndir" (click)="downloadReport(report)">
+                        <i class="fas fa-download"></i>
+                      </button>
+                      <button class="delete-btn" title="Raporu Kaldır" (click)="deleteReport(report.id)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Görüntü Ekle Butonu (Sağ Alt Köşe) -->
+      <button class="floating-btn upload-btn" (click)="openImageUploadModal()" aria-label="Görüntü Ekle" title="Görüntü Ekle">
+        <i class="fas fa-camera"></i>
+      </button>
+    </main>
+  </div>
+  
+  <!-- Footer Bölümü -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 SPINOVA Tüm Hakları Saklıdır</p>
+    </div>
+  </footer>
+  
+  <!-- Görüntü Yükleme Modal Penceresi -->
+  <app-image-upload-modal 
+    *ngIf="showImageUploadModal" 
+    [patient]="patient"
+    (closeModal)="closeImageUploadModal()"
+    (uploadComplete)="onImageUploaded($event)">
+  </app-image-upload-modal>
+
+  <!-- CT Tarama Yükleme Modal Penceresi -->
+  <app-ct-upload-modal 
+    *ngIf="showCTUploadModal" 
+    [patient]="patient"
+    (closeModal)="closeCTUploadModal()"
+    (uploadComplete)="onImageUploaded($event)">
+  </app-ct-upload-modal>
+</div> 

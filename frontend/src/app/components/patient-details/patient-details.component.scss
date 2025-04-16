@@ -1,0 +1,484 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* Navbar Stilleri */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.navbar-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #029183;
+  letter-spacing: 1px;
+  font-family:'Prosto One', sans-serif;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.navbar-item:hover {
+  color: #029183;
+}
+
+.navbar-item i {
+  font-size: 1rem;
+}
+
+.navbar-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #029183;
+  transition: width 0.3s;
+}
+
+.navbar-item:hover::after {
+  width: 100%;
+}
+
+.navbar-actions {
+  margin-left: 2rem;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #029183;
+  color: #029183;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #029183;
+  color: white;
+}
+
+/* Sayfa Yapısı */
+.page-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+/* Yan Menü Stilleri */
+.sidebar-menu {
+  width: 280px;
+  background-color: #2E3630;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  overflow-y: auto;
+}
+
+.patient-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+
+.patient-avatar i {
+  font-size: 4rem;
+  color: #e0e0e0;
+  margin-bottom: 0.5rem;
+}
+
+.patient-avatar h3 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 0.5rem 0;
+  font-weight: 500;
+}
+
+.patient-details {
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #029183;
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item {
+  margin-bottom: 0.5rem;
+}
+
+.info-item .label {
+  display: block;
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-bottom: 0.2rem;
+}
+
+.info-item .value {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.action-buttons {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.edit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #029183;
+  color: white;
+  border: none;
+  padding: 0.7rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #017a6e;
+}
+
+/* Ana İçerik Stilleri */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Floating buton stilleri */
+.floating-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #029183;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.floating-btn i {
+  font-size: 1.5rem;
+}
+
+.floating-btn:hover {
+  background-color: #017a6e;
+  transform: translateY(-5px);
+}
+
+/* Form Stilleri */
+.patient-form {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  height: auto;
+  min-height: calc(100vh - 270px);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.form-header h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.cancel-btn, .save-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  color: #555;
+}
+
+.cancel-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.save-btn {
+  background-color: #029183;
+  border: none;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #017a6e;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.form-group input, .form-group select {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus, .form-group select:focus {
+  border-color: #029183;
+  outline: none;
+}
+
+/* Hasta rapor içeriği */
+.patient-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  height: auto;
+  min-height: calc(100vh - 270px);
+}
+
+.content-header {
+  margin-bottom: 2rem;
+}
+
+.content-header h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.patient-reports {
+  min-height: 300px;
+}
+
+.empty-reports {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
+  color: #888;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.empty-reports p {
+  margin: 0.5rem 0;
+}
+
+/* Footer Stilleri */
+.app-footer {
+  background-color: #64886C;
+  color: white;
+  padding: 1.5rem 2rem;
+  margin-top: auto;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive tasarım için */
+@media (max-width: 992px) {
+  .form-row {
+    flex-wrap: wrap;
+  }
+  
+  .sidebar-menu {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    flex-direction: column;
+  }
+  
+  .sidebar-menu {
+    width: 100%;
+    max-height: none;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .navbar {
+    padding: 1rem;
+  }
+  
+  .navbar-menu {
+    gap: 1rem;
+  }
+  
+  .navbar-actions {
+    margin-left: 1rem;
+  }
+  
+  .patient-form, .patient-content {
+    padding: 1.5rem;
+    min-height: auto;
+  }
+  
+  .floating-btn {
+    bottom: 70px;
+    right: 20px;
+  }
+}
+
+.report-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  .report-description {
+    flex: 1;
+    color: #555;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .download-btn, .delete-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
+    
+    i {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .download-btn {
+    background-color: #029183;
+    color: white;
+    
+    &:hover {
+      background-color: #017a6e;
+    }
+  }
+  
+  .delete-btn {
+    background-color: #ff4747;
+    color: white;
+    
+    &:hover {
+      background-color: #e93535;
+    }
+  }
+} 

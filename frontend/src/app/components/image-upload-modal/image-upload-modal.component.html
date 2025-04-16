@@ -1,0 +1,92 @@
+<div class="modal-overlay">
+  <div class="modal-content">
+    <header class="modal-header">
+      <h2>Görüntü Yükleme</h2>
+      <button type="button" class="close-button" (click)="onClose()">&times;</button>
+    </header>
+
+    <div class="modal-body">
+      <div class="patient-info" *ngIf="patient">
+        <h3>Hasta Bilgileri</h3>
+        <div class="info-row">
+          <span class="label">T.C. Kimlik No:</span>
+          <span class="value">{{ patient.tcNo }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Ad Soyad:</span>
+          <span class="value">{{ patient.name }} {{ patient.surname }}</span>
+        </div>
+      </div>
+
+      <form [formGroup]="uploadForm" (ngSubmit)="saveReport()">
+        <div class="form-group">
+          <label for="file">Görüntü Seç</label>
+          <input 
+            type="file" 
+            id="file" 
+            (change)="onFileChange($event)" 
+            accept="image/*, application/dicom"
+            class="form-control"
+          />
+          
+          <div class="image-preview" *ngIf="imagePreview">
+            <img [src]="imagePreview" alt="Görüntü önizleme" />
+          </div>
+        </div>
+
+        <button 
+          type="button" 
+          class="btn btn-secondary" 
+          (click)="analyzeImage()" 
+          [disabled]="!uploadForm.get('file')?.value || isAnalyzing"
+          *ngIf="isCTUpload"
+        >
+          <span *ngIf="isAnalyzing">Analiz Ediliyor...</span>
+          <span *ngIf="!isAnalyzing">Görüntüyü Analiz Et</span>
+        </button>
+
+        <div class="form-group" *ngIf="analysisResult">
+          <div class="alert alert-info">
+            <strong>Analiz Sonucu:</strong> {{ analysisResult }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="diagnosis">Teşhis</label>
+          <textarea 
+            id="diagnosis" 
+            formControlName="diagnosis" 
+            class="form-control" 
+            rows="4" 
+            placeholder="Teşhisinizi buraya girin"
+          ></textarea>
+          <div class="error-message" *ngIf="uploadForm.get('diagnosis')?.invalid && uploadForm.get('diagnosis')?.touched">
+            Teşhis alanı zorunludur
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Notlar (Opsiyonel)</label>
+          <textarea 
+            id="notes" 
+            formControlName="notes" 
+            class="form-control" 
+            rows="3" 
+            placeholder="Eklemek istediğiniz notlar"
+          ></textarea>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" (click)="onClose()">İptal</button>
+          <button 
+            type="submit" 
+            class="btn btn-primary" 
+            [disabled]="uploadForm.invalid || !imagePreview"
+          >
+            Kaydet
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

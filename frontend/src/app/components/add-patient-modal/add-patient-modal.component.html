@@ -1,0 +1,100 @@
+<div class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Yeni Hasta Ekle</h2>
+      <button class="close-btn" (click)="onClose()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tcNo">TC Kimlik No</label>
+            <input type="text" id="tcNo" formControlName="tcNo" placeholder="11 haneli TC kimlik numarası">
+            <div *ngIf="patientForm.get('tcNo')?.invalid && patientForm.get('tcNo')?.touched" class="error">
+              <span *ngIf="patientForm.get('tcNo')?.errors?.['required']">TC kimlik numarası zorunludur</span>
+              <span *ngIf="patientForm.get('tcNo')?.errors?.['pattern']">TC kimlik numarası 11 rakamdan oluşmalıdır</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Adı</label>
+            <input type="text" id="name" formControlName="name" placeholder="Hasta adı">
+            <div *ngIf="patientForm.get('name')?.invalid && patientForm.get('name')?.touched" class="error">
+              Hasta adı zorunludur
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="surname">Soyadı</label>
+            <input type="text" id="surname" formControlName="surname" placeholder="Hasta soyadı">
+            <div *ngIf="patientForm.get('surname')?.invalid && patientForm.get('surname')?.touched" class="error">
+              Hasta soyadı zorunludur
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="birthDate">Doğum Tarihi</label>
+            <input type="date" id="birthDate" formControlName="birthDate">
+            <div *ngIf="patientForm.get('birthDate')?.invalid && patientForm.get('birthDate')?.touched" class="error">
+              Doğum tarihi zorunludur
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="gender">Cinsiyet</label>
+            <select id="gender" formControlName="gender">
+              <option value="">Seçiniz</option>
+              <option value="Erkek">Erkek</option>
+              <option value="Kadın">Kadın</option>
+            </select>
+            <div *ngIf="patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched" class="error">
+              Cinsiyet seçimi zorunludur
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="height">Boy (cm)</label>
+            <input type="number" id="height" formControlName="height" placeholder="Boy (cm)">
+          </div>
+          
+          <div class="form-group">
+            <label for="weight">Kilo (kg)</label>
+            <input type="number" id="weight" formControlName="weight" placeholder="Kilo (kg)">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phoneNumber">Telefon</label>
+            <input type="tel" id="phoneNumber" formControlName="phoneNumber" placeholder="05XX XXX XXXX">
+            <div *ngIf="patientForm.get('phoneNumber')?.invalid && patientForm.get('phoneNumber')?.touched" class="error">
+              <span *ngIf="patientForm.get('phoneNumber')?.errors?.['required']">Telefon numarası zorunludur</span>
+              <span *ngIf="patientForm.get('phoneNumber')?.errors?.['pattern']">Geçerli bir telefon numarası giriniz</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">E-posta</label>
+            <input type="email" id="email" formControlName="email" placeholder="ornek@email.com">
+            <div *ngIf="patientForm.get('email')?.invalid && patientForm.get('email')?.touched" class="error">
+              <span *ngIf="patientForm.get('email')?.errors?.['required']">E-posta adresi zorunludur</span>
+              <span *ngIf="patientForm.get('email')?.errors?.['email']">Geçerli bir e-posta adresi giriniz</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="onClose()">İptal</button>
+          <button type="submit" class="save-btn" [disabled]="patientForm.invalid">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

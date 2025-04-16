@@ -1,0 +1,85 @@
+<div class="app-container">
+  <!-- Navbar Bölümü -->
+  <nav class="navbar">
+    <div class="navbar-logo">SPINOVA</div>
+    <div class="navbar-right">
+      <div class="navbar-menu">
+       
+        <a [routerLink]="['/doctor-dashboard']" class="navbar-item active">
+          <i class="fas fa-folder"></i>
+          HASTA ARŞİVİ
+        </a>
+        <a  class="navbar-item">
+          <i class="fas fa-folder"></i>
+          HESABIM
+        </a>
+      </div>
+      <div class="navbar-actions">
+        <button class="logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Çıkış Yap
+        </button>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="page-wrapper">
+    <!-- Dikey Yan Menü -->
+    <aside class="sidebar-menu">
+      <div class="doctor-avatar">
+        <i class="fas fa-user-md"></i>
+        <h3>{{ doctorName }}</h3>
+      </div>
+    </aside>
+    
+    <!-- Ana İçerik -->
+    <main class="main-content">
+      <div class="dashboard-container">
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>TC Kimlik No</th>
+                <th>Ad</th>
+                <th>Soyad</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let patient of patients">
+                <td class="clickable" (click)="viewPatient(patient.tcNo)">{{ patient.tcNo }}</td>
+                <td>{{ patient.name }}</td>
+                <td>{{ patient.surname }}</td>
+                
+              
+              </tr>
+              <tr *ngIf="patients.length === 0">
+                <td colspan="7" class="no-data">Hasta bulunamadı</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Yeni Hasta Ekle Butonu (Sağ Alt Köşe) -->
+      <button class="floating-btn add-patient-btn" (click)="openAddPatientModal()" aria-label="Yeni Hasta Ekle" title="Yeni Hasta Ekle">
+        <i class="fas fa-plus"></i>
+      </button>
+    </main>
+  </div>
+  
+  <!-- Footer Bölümü -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 SPINOVA Tüm Hakları Saklıdır</p>
+    </div>
+  </footer>
+  
+  <!-- Hasta Ekleme Modal Penceresi -->
+  <app-add-patient-modal
+    *ngIf="showAddPatientModal"
+    (closeModal)="closeAddPatientModal()"
+    (addPatient)="onPatientAdded($event)">
+  </app-add-patient-modal>
+</div> 
